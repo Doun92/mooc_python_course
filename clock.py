@@ -1,44 +1,48 @@
-# Write your solution here:
-class Clock:
-    def __init__(self, hours, minutes, seconds):
-        self.hours = hours
-        self.minutes = minutes
-        self.seconds = seconds
+import pygame
+import math
+from datetime import datetime
+import sys
 
-    def __str__(self):
-        if len(str(self.seconds)) < 2:
-            show_seconds = f"0"+str(self.seconds)
-        else:
-            show_seconds = self.seconds
+# Initialize Pygame
+pygame.init()
 
-        if len(str(self.minutes)) < 2:
-            show_minutes = f"0"+str(self.minutes)
-        else:
-            show_minutes = self.minutes
+window = pygame.display.set_mode((640, 480))
 
-        if len(str(self.hours)) < 2:
-            show_hours = f"0"+str(self.hours)
-        else:
-            show_hours = self.hours
+clock = pygame.time.Clock()
 
-        return f"{show_hours}:{show_minutes}:{show_seconds}"
+def draw_bars(angle_deg, length, width):
+    angle_rad = math.radians(angle_deg - 90)
+    x = 320 + math.cos(angle_rad) * length
+    y = 240 + math.sin(angle_rad) * length
+    pygame.draw.line(window, (0,0,255), (320,240), (x, y), width)
 
-    def tick(self):
-        self.seconds += 1
+def get_time_angles():
+    now = datetime.now()
+    sec = now.second
+    minute = now.minute + sec / 60
+    hour = now.hour % 12 + minute / 60
 
-        if self.seconds == 60:
-            self.minutes += 1
-            self.seconds = 0
-            if self.minutes == 60:
-                self.hours += 1
-                self.minutes = 0
-                self.seconds = 0
-                if self.hours == 24:
-                    self.hours = 0
-                    self.minutes = 0
-                    self.seconds = 0
+    sec_angle = (sec / 60) * 360
+    min_angle = (minute / 60) * 360
+    hour_angle = (hour / 12) * 360
 
-    def set(self, h:int, m:int):
-        self.hours = h
-        self.minutes = m
-        self.seconds = 0
+    return hour_angle, min_angle, sec_angle
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            exit()
+
+    window.fill((0,0,0))
+
+    pygame.draw.circle(window, (255,0,0), (320,240), 200, width=4)
+    pygame.draw.circle(window, (255,0,0), (320,240), 10)
+
+    hour_angle, min_angle, sec_angle = get_time_angles() 
+    draw_bars(hour_angle, 100, 6)
+    draw_bars(min_angle, 150, 2)
+    draw_bars(sec_angle, 150, 2)
+
+
+    pygame.display.flip()
+    clock.tick(60)
