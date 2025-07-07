@@ -5,13 +5,12 @@ def line(nb, char):
     else:
         print("*" * nb)
 
-def square_of_hashes(size):
-    # You should call function line here with proper parameters
+def square(size, character):
     idx = 0
     while idx < size:
-        line(size, "#")
+        line(size, character)
         idx += 1
 
 # You can test your function by calling it within the following block
 if __name__ == "__main__":
-    square_of_hashes(5)
+    square(5, "x")

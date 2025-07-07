@@ -5,13 +5,13 @@ def line(nb, char):
     else:
         print("*" * nb)
 
-def square_of_hashes(size):
+def triangle(size):
     # You should call function line here with proper parameters
-    idx = 0
-    while idx < size:
-        line(size, "#")
+    idx = 1
+    while idx <= size:
+        line(idx, "#")
         idx += 1
 
 # You can test your function by calling it within the following block
 if __name__ == "__main__":
-    square_of_hashes(5)
+    triangle(5)
